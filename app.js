@@ -1,16 +1,19 @@
-
-
-const express=require('express');
-
+const express = require('express');
 const app = express();
-app.use((req,res,next)=>{
-    console.log('it is a middleware')
-    next();
-})
 
-app.use((req,res,next)=>{
-    console.log('it is a middleware second')
-    res.send('<h1> Hello from Express..!</h1>')
-})
+app.use(express.urlencoded({ extended: false }));
 
-app.listen(3000);
+app.use('/add-product', (req, res, next) => {
+  res.send('<form action="/product" method="POST"><input type="text" name="title"><input type="number" name="size"><button type="submit">ADD ITEM</button></form>');
+});
+
+app.post('/product', (req, res, next) => {
+  console.log(req.body);
+  res.redirect('/');
+});
+
+app.use('/', (req, res, next) => {
+  res.send('<h3>Hello from Express.......</h3>');
+});
+
+app.listen(3000)
